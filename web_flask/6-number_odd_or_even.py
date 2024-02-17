@@ -44,9 +44,25 @@ def html_display(n):
     try:
         n_int = int(n)
         if isinstance(n_int, int):
-            return render_template('5-number.html', n=n_int)
+            return render_template('5-number.html')
     except ValueError:
         return f"{n} is not a valid number"
+    
+@app.route('/number_odd_or_even/<n>')
+def html_display_even_odd(n):
+    """display according to odd and even"""
+    try:
+        n_int = int(n)
+        str1 = "odd"
+        str2 = "even"
+        if isinstance(n_int, int):
+            if n_int % 2 == 0:
+                return render_template('6-number_odd_or_even.html', n=n_int, str_val=str2)
+            else:
+                return render_template('6-number_odd_or_even.html', n=n_int, str_val=str1)
+    except ValueError:
+        return f"{n} is not a valid number" 
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
