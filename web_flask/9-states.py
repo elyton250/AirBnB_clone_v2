@@ -26,7 +26,7 @@ def states_id(id):
     """Displays an HTML page with info about <id>, if it exists."""
     for state in storage.all("State").values():
         if state.id == id:
-            return render_template("9-states.html", state=state)
+            return render_template("9-states.html", states=state)
     return render_template("9-states.html")
 
 
