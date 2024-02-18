@@ -1,6 +1,11 @@
+#!/usr/bin/python3
+"""this modules returns a number"""
+
 from flask import Flask, render_template
 
+
 def create_app():
+    """this creates the app"""
     app = Flask(__name__)
     app.url_map.strict_slashes = False
 
@@ -38,8 +43,8 @@ def create_app():
         """ display html if n is int. """
         n = str(n)
         return render_template('5-number.html', n=n)
-
     return app
+
 
 if __name__ == '__main__':
     create_app().run(host='0.0.0.0', port=5000)
