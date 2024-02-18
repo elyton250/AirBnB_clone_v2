@@ -13,14 +13,11 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route("/states_list", strict_slashes=False)
-def states_list():
-    """Displays an HTML page with a list of all State objects in DBStorage.
-
-    States are sorted by name.
-    """
+@app.route('/cities_by_states')
+def city_list():
+    """this function is for a city"""
     states = storage.all('State')
-    return render_template("7-states_list.html", states=states)
+    return render_template("8-cities_by_states.html", states=states)
 
 
 @app.teardown_appcontext

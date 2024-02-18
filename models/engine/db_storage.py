@@ -68,7 +68,7 @@ class DBStorage:
     def delete(self, obj):
         """delet from database"""
         if obj is not None:
-            self.__session.delete()
+            self.__session.delete(obj)
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
@@ -79,4 +79,4 @@ class DBStorage:
 
     def close(self):
         """Close the sqlalchemy sessions"""
-        self.__session.remove()
+        self.__session.close()
