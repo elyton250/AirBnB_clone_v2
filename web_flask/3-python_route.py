@@ -28,12 +28,8 @@ def c_diplay(text):
 @app.route('/python/<text>')
 def python_diplay(text):
     """this display c and text"""
-    if text is not None:
-        modified_text = text.replace('_', ' ')
-        return f"Python {modified_text}"
-    else:
-        text = "is cool"
-        return f"Python {text}"
+    text = text.replace("_", " ")
+    return "Python {}".format(text)
 
 
 if __name__ == "__main__":
