@@ -13,9 +13,10 @@ import os
 from dotenv import load_dotenv
 
 
-
 """ load variable from env file """
 load_dotenv()
+
+
 class DBStorage:
     """Represents a database storage engine.
 
@@ -38,6 +39,7 @@ class DBStorage:
                                       pool_pre_ping=True)
         if os.environ.get("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
+
     def all(self, cls=None):
         """Query all objects and return dictionaries"""
         all_classes = [State, City, User, Place, Review, Amenity]
@@ -52,7 +54,7 @@ class DBStorage:
             objs = self.__session.query(cls).all()
         result_dict = {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
         return result_dict
-    
+
     def new(self, obj):
         """adds a new object to the to the database"""
         if obj not in self.__session:
@@ -60,18 +62,21 @@ class DBStorage:
 
     def save(self, obj):
         """this saves the changes and commits them to the database"""
+
         self.__session.commit()
+
     def delete(self, obj):
         """delet from database"""
         if obj is not None:
             self.__session.delete()
 
-    def reload (self):
+    def reload(self):
         Base.metadata.create_all(self.__engine)
-        session_expire = sessionmaker(bind=self.__engine, expire_on_commit=True)
+        session_expire = sessionmaker(
+            bind=self.__engine, expire_on_commit=True)
         Session = scoped_session(session_expire)
         self.__session = Session()
 
     def close(self):
-        """this close the sqlalchemy sessions"""
-        self.__session.close()
+        """Close the sqlalchemy sessions"""
+        self.__session.remove()
