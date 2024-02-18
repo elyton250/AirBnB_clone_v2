@@ -14,11 +14,6 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.route('/cities_by_states')
-def city_list():
-    """this function is for a city"""
-    states = storage.all("State")
-    return render_template("9-states.html", states=states)
 
 
 @app.teardown_appcontext

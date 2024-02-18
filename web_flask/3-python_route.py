@@ -22,7 +22,7 @@ def hello_hbnb():
 def c_diplay(text):
     """this display c and text"""
     modified_text = text.replace('_', ' ')
-    return f"c {modified_text}"
+    return f"C {modified_text}"
 
 
 @app.route('/python/<text>')
