@@ -1,31 +1,38 @@
 #!/usr/bin/env bash
-# This script sets up directories and deploys a simple HTML page
+# Sets up a web server for deployment of web_static.
 
-# Define directories
-directories=(
-    "/data/"
-    "/data/web_static/"
-    "/data/web_static/releases/"
-    "/data/web_static/shared/"
-    "/data/web_static/releases/test/"
-)
+apt-get update
+apt-get install -y nginx
 
-for dir in "${directories[@]}"; do
-    if [ ! -d "$dir" ]; then
-        mkdir -p "$dir"
-    fi
-done
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-html_content='<!DOCTYPE html>
-<html lang="en">
-<head></head>
-<body>
-    Holberton School
-</body>
-</html>'
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
 
-echo "$html_content" > "/data/web_static/releases/test/index.html"
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
 
-ln -sfT "/data/web_static/releases/test/" "/data/web_static/current"
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
 
-chown -R ubuntu:ubuntu /data/
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
